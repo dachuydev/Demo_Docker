@@ -2,13 +2,15 @@
 
 1. Tạo thư mục mới rồi clone repo:
    ```sh
-   git clone https://github.com/dachuydev/Docker_demo.git
+   git clone https://github.com/dachuydev/Demo_Docker.git
 2. Mở Docker Desktop hoặc terminal rồi vào thư mục vừa clone:
    ```sh
-   cd Docker_demo
+   cd Docker_Project
 3. Chạy lệnh:
    ```sh
    docker-compose up --build
 Nếu gặp lỗi, hãy thử chạy lệnh sau để dừng và xóa tất cả container, network và volume:   
    ```sh
    docker-compose down
+   docker-compose down -v
+
