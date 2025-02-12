@@ -1,0 +1,48 @@
+version: '3.8'
+
+networks:
+  demo-network:
+    driver: bridge
+
+services:
+  frontend:
+    build: frontend  # Đường dẫn tới thư mục chứa Dockerfile của frontend
+    container_name: react_frontend
+    networks:
+      - demo-network
+    ports:
+      - "3000:80"  # Map port 80 của Nginx trong container ra port 3000
+    environment:
+      - REACT_APP_API_URL=http://localhost:8080  # URL để gọi API backend
+    depends_on:
+      - app
+
+  app:
+    build: demo_data
+    container_name: demo_docker
+    networks:
+      - demo-network
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/demo_docker
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:8.0.30
+    container_name: mysql
+    networks:
+      - demo-network
+    ports:
+      - "3306:3306"
+    volumes:
+      - todo-mysql-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: demo_docker
+
+volumes:
+  todo-mysql-data:
